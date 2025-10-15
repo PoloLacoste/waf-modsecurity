@@ -1,0 +1,55 @@
+#!/bin/sh
+
+export METRICS_ALLOW_FROM='127.0.0.0/24'
+export METRICS_DENY_FROM='all'
+export METRICSLOG=/dev/null
+export MODSEC_ARGUMENT_SEPARATOR="&"
+export MODSEC_ARGUMENTS_LIMIT=1000
+export MODSEC_AUDIT_ENGINE="RelevantOnly"
+export MODSEC_AUDIT_LOG=/dev/stdout
+export MODSEC_AUDIT_LOG_FORMAT=JSON
+export MODSEC_AUDIT_LOG_PARTS='ABIJDEFHZ'
+export MODSEC_AUDIT_LOG_RELEVANT_STATUS="^(?:5|4(?!04))"
+export MODSEC_AUDIT_LOG_TYPE=Serial
+export MODSEC_COOKIE_FORMAT=0
+export MODSEC_AUDIT_STORAGE_DIR=/var/log/modsecurity/audit/
+export MODSEC_DATA_DIR=/tmp/modsecurity/data
+export MODSEC_DEBUG_LOG=/dev/null
+export MODSEC_DEBUG_LOGLEVEL=0
+export MODSEC_DEFAULT_PHASE1_ACTION="phase:1,pass,log,tag:'\${MODSEC_TAG}'"
+export MODSEC_DEFAULT_PHASE2_ACTION="phase:2,pass,log,tag:'\${MODSEC_TAG}'"
+export MODSEC_DISABLE_BACKEND_COMPRESSION="Off"
+export MODSEC_PCRE_MATCH_LIMIT=100000
+export MODSEC_PCRE_MATCH_LIMIT_RECURSION=100000
+export MODSEC_REQ_BODY_ACCESS=on
+export MODSEC_REQ_BODY_JSON_DEPTH_LIMIT=512
+export MODSEC_REQ_BODY_LIMIT=13107200
+export MODSEC_REQ_BODY_LIMIT_ACTION="Reject"
+export MODSEC_REQ_BODY_NOFILES_LIMIT=131072
+export MODSEC_RESP_BODY_ACCESS=on
+export MODSEC_RESP_BODY_LIMIT=1048576
+export MODSEC_RESP_BODY_LIMIT_ACTION="ProcessPartial"
+export MODSEC_RESP_BODY_MIMETYPE="text/plain text/html text/xml"
+export MODSEC_RULE_ENGINE=on
+export MODSEC_STATUS_ENGINE="Off"
+export MODSEC_TAG=modsecurity
+export MODSEC_TMP_DIR=/tmp/modsecurity/tmp
+export MODSEC_TMP_SAVE_UPLOADED_FILES="on"
+export MODSEC_UNICODE_MAPPING=20127
+export MODSEC_UPLOAD_DIR=/tmp/modsecurity/upload
+export MODSEC_UPLOAD_FILE_MODE=0600
+export MODSEC_UPLOAD_KEEP_FILES=Off
+export PORT=8080
+export REAL_IP_HEADER="X-REAL-IP"
+export REAL_IP_PROXY_HEADER="X-REAL-IP"
+export REAL_IP_RECURSIVE="on"
+export SERVER_NAME=localhost
+export SERVER_TOKENS=off
+export SET_REAL_IP_FROM="127.0.0.1"
+# CRS specific variables
+export PARANOIA=2
+export ANOMALY_INBOUND=5
+export ANOMALY_OUTBOUND=4
+export BLOCKING_PARANOIA=1
+
+envsubst < /etc/modsecurity.d/modsecurity.conf > /etc/modsecurity.d/modsecurity.conf

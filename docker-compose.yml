@@ -1,0 +1,36 @@
+services:
+  traefik:
+    restart: unless-stopped
+    image: traefik
+    container_name: traefik
+    command:
+      - --api.insecure=true 
+      - --providers.docker
+      - --api.dashboard=true
+      - --experimental.plugins.traefik-modsecurity-plugin.modulename=github.com/acouvreur/traefik-modsecurity-plugin
+      - --experimental.plugins.traefik-modsecurity-plugin.version=v1.3.0
+    labels:
+      - traefik.http.middlewares.waf.plugin.traefik-modsecurity-plugin.modSecurityUrl=http://waf:8080
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - waf
+
+  waf:
+    image: pololacoste/waf-modsecurity
+    container_name: waf
+    labels:
+      - traefik.enable=false
+  
+  whoami:
+    restart: unless-stopped
+    image: traefik/whoami
+    container_name: whoami
+    labels:
+      - traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)
+      - traefik.http.routers.whoami.middlewares=waf
+    depends_on:
+      - traefik
